@@ -97,17 +97,14 @@ class ModMOBIPocket
          */
 	private function display_template($template)
 	{
-		if ($fh = fopen($this->filename, "r"))
+		$mobipocket = new mobipocket();
+		if ($mobipocket->open($this->filename))
 		{
-			$mobipocket = new mobipocket();
-			if ($mobipocket->read($fh))
-			{
-				$this->display_header($mobipocket);
-				include($template);
-				$this->display_footer($mobipocket);
-			}
+			$this->display_header($mobipocket);
+			include($template);
+			$this->display_footer($mobipocket);
 
-			fclose($fh);
+			$mobipocket->close();
 		}
 	}
 
