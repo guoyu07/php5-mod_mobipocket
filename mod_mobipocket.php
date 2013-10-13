@@ -98,13 +98,11 @@ class ModMOBIPocket
 	private function display_template($template)
 	{
 		$mobipocket = new mobipocket();
-		if ($mobipocket->open($this->filename))
+		if ($mobipocket->load($this->filename))
 		{
 			$this->display_header($mobipocket);
 			include($template);
 			$this->display_footer($mobipocket);
-
-			$mobipocket->close();
 		}
 	}
 
