@@ -4,6 +4,8 @@
  * 
  * (c)2013 mrdragonraaar.com
  */
+global $mod_mobipocket;
+$mobipocket = $mod_mobipocket->mobipocket;
 ?>
 <!-- Cover -->
 <?php if ($mobipocket->cover()) { ?>

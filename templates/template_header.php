@@ -4,6 +4,9 @@
  * 
  * (c)2013 mrdragonraaar.com
  */
+global $mod_mobipocket;
+$mobipocket = $mod_mobipocket->mobipocket;
+
 header("Content-Type: text/html;charset=UTF-8");
 ?>
 <!DOCTYPE html>

@@ -35,9 +35,10 @@ class ModMOBIPocket
 	const TEMPLATE_HEADER = 'templates/template_header.php';
 	const TEMPLATE_FOOTER = 'templates/template_footer.php';
 
-	public $filename;
-	public $header;
-	public $footer;
+	public $filename = '';
+	public $header = '';
+	public $footer = '';
+	public $mobipocket = null;
 
 	/**
          * Create new ModMOBIPocket instance.
@@ -55,6 +56,17 @@ class ModMOBIPocket
 		$this->filename = getenv('PATH_TRANSLATED');
 		$this->header = apache_getenv('MOBIPocketHeader', true);
 		$this->footer = apache_getenv('MOBIPocketFooter', true);
+		$this->_init_mobipocket();
+	}
+
+	/**
+         * Load mobipocket.
+         */
+	private function _init_mobipocket()
+	{
+		$mobipocket = new mobipocket();
+		if ($mobipocket->load($this->filename))
+			$this->mobipocket = $mobipocket;
 	}
 
 	/**
@@ -97,20 +109,18 @@ class ModMOBIPocket
          */
 	private function display_template($template)
 	{
-		$mobipocket = new mobipocket();
-		if ($mobipocket->load($this->filename))
+		if (isset($this->mobipocket))
 		{
-			$this->display_header($mobipocket);
+			$this->display_header();
 			include($template);
-			$this->display_footer($mobipocket);
+			$this->display_footer();
 		}
 	}
 
 	/**
          * Display header.
-         * @param $mobipocket MOBIPocket.
          */
-	private function display_header($mobipocket)
+	private function display_header()
 	{
 		if ($this->header && is_file($this->header))
 			include_once($this->header);
@@ -120,9 +130,8 @@ class ModMOBIPocket
 
 	/**
          * Display footer.
-         * @param $mobipocket MOBIPocket.
          */
-	private function display_footer($mobipocket)
+	private function display_footer()
 	{
 		if ($this->footer && is_file($this->footer))
 			include_once($this->footer);
